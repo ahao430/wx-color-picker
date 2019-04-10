@@ -214,7 +214,6 @@ Component({
             query.select('#wrapper').boundingClientRect()
             query.selectViewport().scrollOffset()
             query.exec(res => {
-              console.log(res)
               _this.setData({
                 top: res[0].top,
                 left: res[0].left,
@@ -264,7 +263,6 @@ Component({
     },
     // 选中颜色
     _chooseColor (e) {
-      console.log(e)
       clearTimeout(this.data.timer)
       let x = (e.changedTouches[0].pageX - this.data.left - this.data.scrollLeft) / this.data.rpxRatio
       let y = (e.changedTouches[0].pageY - this.data.top - this.data.scrollTop) / this.data.rpxRatio
@@ -358,8 +356,6 @@ Component({
     },
     // 根据颜色获取色相x,y
     _getPos (r, g, b, hex) {
-      console.log(r, g, b)
-      console.log(this.data.hueData)
       // 获取色相（色盘最右上角的颜色）
       const sRed = this.data.hueData.colorStopRed
       const sGreen = this.data.hueData.colorStopGreen
@@ -411,7 +407,6 @@ Component({
     },
     // 根据颜色获取bar y值
     _getBarY (r, g, b, hex) {
-      console.log(r, g, b)
       let y = 0
       const { hueData } = this.data
       if (r >= g && r >= b) {
@@ -590,7 +585,7 @@ Component({
       this.triggerEvent('close')
     },
     handleConfirm () {
-      this.triggerEvent('change', this.data)
+      this.triggerEvent('change', this.data.pickerData)
     },
   }
 })
