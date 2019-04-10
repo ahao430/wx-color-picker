@@ -11,7 +11,7 @@ Component({
     },
     color: {
       type: String,
-      value: '#000000',
+      value: '#FF0000',
     },
   },
   data: {
@@ -30,6 +30,12 @@ Component({
       green: 0,
       blue: 0,
       hex: '#000000'
+    },
+    input: {
+      red: '',
+      green: '',
+      blue: '',
+      hex: '',
     },
     // 色相控制条位置
     barY: 0,
@@ -227,8 +233,7 @@ Component({
     // 初始化颜色
     _initColor () {
       let {r, g, b, hex} = this.formatColor(this.data.color.trim())
-      this._getBarY(r, g, b)
-      this._getPos(r, g, b, hex)
+      this._getBarY(r, g, b, hex)
     },
     // 转换颜色
     formatColor (color) {
@@ -342,7 +347,13 @@ Component({
       pickerData.blue = Math.round(pBlue - blueValueY)
       pickerData.hex = hex
       this.setData({
-        pickerData
+        pickerData,
+        input: {
+          red: pickerData.red,
+          green: pickerData.green,
+          blue: pickerData.blue,
+          hex: pickerData.hex,
+        },
       })
     },
     // 根据颜色获取色相x,y
@@ -387,12 +398,19 @@ Component({
           red: r,
           green: g,
           blue: b,
-          hex: hex
+          hex: hex,
+        },
+        input: {
+          red: r,
+          green: g,
+          blue: b,
+          hex: hex,
+
         },
       })
     },
     // 根据颜色获取bar y值
-    _getBarY (r, g, b) {
+    _getBarY (r, g, b, hex) {
       console.log(r, g, b)
       let y = 0
       const { hueData } = this.data
@@ -452,6 +470,7 @@ Component({
         barY: y,
         hueData,
       })
+      this._getPos(r, g, b, hex)
     },
     // 改变色相
     _changeHue (y) {
@@ -525,8 +544,48 @@ Component({
       }
       return [ r, g, b ]
     },
-
-    //
+    // 手动输入颜色
+    handleInputRgb (e) {
+      let val = +e.detail.value
+      let type = e.currentTarget.dataset.type
+      val = val.replace(/\D/g, '')
+      if (val > 255) {
+        val = val / 10 << 0
+      }
+      this.setData({
+        ['input.' + type]: val,
+      })
+    },
+    handleBlurRgb (e) {
+      let obj = {
+        red: this.data.pickerData.red,
+        green: this.data.pickerData.green,
+        blue: this.data.pickerData.blue,
+      }
+      let val = e.detail.value
+      let type = e.currentTarget.dataset.type
+      obj[type] = val
+      let {r, g, b, hex} = this.formatColor(`rgb(${obj.red},${obj.green},${obj.blue})`)
+      this._getBarY(r, g, b, hex)
+    },
+    handleInputHex (e) {
+      let val = e.detail.value + ''
+      val = val.replace(/[^0-9a-fA-F]/g, '')
+      if (val.length > 6) {
+        val = val.slice(0, 6)
+      }
+      this.setData({
+        'input.hex': val,
+      })
+    },
+    handleBlurHex (e) {
+      let val = e.detail.value + ''
+      if (val.length === 3 || val.length === 6) {
+        let {r, g, b, hex} = this.formatColor('#' + val)
+        this._getBarY(r, g, b, hex)
+      }
+    },
+    // 确认选择
     handleCancel () {
       this.triggerEvent('close')
     },
