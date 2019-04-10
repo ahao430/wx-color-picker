@@ -14,8 +14,8 @@
             </view>
         </view>
         <view class="data-area">
-            <text>R:{{pickerData.red}} G:{{pickerData.green}} B:{{pickerData.blue}}</text>
-            <text>HEX:{{pickerData.hex}}</text>
+            <view class="rgb-input-wrapper">R: <input class="rgb-input" type="number" value="{{input.red}}" data-type="red" bindinput="handleInputRgb" bindblur="handleBlurRgb"/> G: <input class="rgb-input" type="number" value="{{input.green}}" data-type="green" bindinput="handleInputRgb" bindblur="handleBlurRgb"/> B: <input class="rgb-input"  type="number" value="{{input.blue}}" data-type="blue" bindinput="handleInputRgb" bindblur="handleBlurRgb"/></view>
+            <view class="hex-input-wrapper">HEX: #<input class="hex-input" type="text" value="{{input.hex}}" bindinput="handleInputHex" bindblur="handleBlurHex"/></view>
         </view>
     </view>
     <view class="color-picker-btns">
