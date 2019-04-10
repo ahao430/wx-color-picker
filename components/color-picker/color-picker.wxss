@@ -152,6 +152,25 @@
   justify-content: space-between;
 }
 
+.color-picker-container .rgb-input-wrapper,
+.color-picker-container .hex-input-wrapper{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.color-picker-container .rgb-input{
+  display: inline-block;
+  background: #fff;
+  width: 60rpx;
+  margin: 10rpx;
+}
+.color-picker-container .hex-input{
+  display: inline-block;
+  background: #fff;
+  width: 150rpx;
+  margin: 10rpx;
+}
+
 .color-picker-btns{
   display: flex;
   justify-content: center;
